@@ -1,8 +1,8 @@
 package com.example.dcasm.navegador;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.*;
+import android.database.sqlite.*;
+import android.database.*;
 
 public class BDNavegador extends SQLiteOpenHelper {
     public BDNavegador(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
