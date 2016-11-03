@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         wv = (WebView) findViewById(R.id.webView2);
+
+        wv.loadUrl("https://www.google.com");
     }
 
     @Override
