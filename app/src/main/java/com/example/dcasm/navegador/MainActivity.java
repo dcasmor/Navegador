@@ -1,15 +1,10 @@
 package com.example.dcasm.navegador;
 
-import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.method.TextKeyListener;
-import android.text.style.BackgroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
@@ -32,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
         autoText = (AutoCompleteTextView) findViewById(R.id.autoText);
         webview = (WebView) findViewById(R.id.webV);
+
+        webview.loadUrl("http://www.google.es");
+        webview.setWebViewClient(new WebViewClient());
+        autoText.setText("http://www.google.es");
+
     }
 
     @Override
