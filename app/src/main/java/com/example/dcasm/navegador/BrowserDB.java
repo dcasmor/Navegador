@@ -3,6 +3,7 @@ package com.example.dcasm.navegador;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -13,7 +14,7 @@ public class BrowserDB extends SQLiteOpenHelper {
     private static final String NOMBRE_BD = "Dat.db";
     private static final String NOMBRE_TABLA = "historial";
 
-    private static final String ins = "CREATE TABLE historial (id INT PRIMARY KEY, alias" +
+    private static final String ins = "CREATE TABLE historial (id INT PRIMARY KEY, nombre" +
             " VARCHAR(100), http VARCHAR(200))";
 
     public BrowserDB(Context context) {
@@ -31,9 +32,28 @@ public class BrowserDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insert(String table, String nullColumnHack, ContentValues values) {
-        long fila = -1;
+    public long insertar(Web web) {
+        long reg = -1;
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            ContentValues valores = new ContentValues();
+            valores.put("id", web.getId());
+            valores.put("nombre", web.getNombre());
+            valores.put("direccion", web.getDireccion());
+            reg = db.insert("historial", null, valores);
+        }
+        db.close();
+        return reg;
+    }
 
-        return fila;
+    public boolean borrar(Web web) {
+        SQLiteDatabase db = getWritableDatabase();
+        if (db != null) {
+            db.execSQL("DROP TABLE historial");
+            try {
+                db.execSQL("SELECT * FROM historial");
+            } catch (SQLException sqlx) {return true;}
+        }
+        return false;
     }
 }

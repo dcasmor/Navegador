@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
@@ -12,26 +13,30 @@ import android.widget.AutoCompleteTextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    BrowserDB bd;
+    Web web;
+    ArrayAdapter<String> historial;
+
     private WebView webview;
     private AutoCompleteTextView autoText;
-    private String aux, url;
-    private ArrayAdapter<String> historial;
-    private BrowserDB bdb;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        bd = new BrowserDB(this);
 
         autoText = (AutoCompleteTextView) findViewById(R.id.autoText);
         webview = (WebView) findViewById(R.id.webV);
 
         webview.loadUrl("http://www.google.es");
         webview.setWebViewClient(new WebViewClient());
-        autoText.setText("http://www.google.es");
+        nuevaWeb();
+    }
 
+    public void nuevaWeb(View view) {
+        web = new Web()
     }
 
     @Override
