@@ -3,7 +3,9 @@ package com.example.dcasm.navegador;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
 import android.text.method.TextKeyListener;
+import android.text.style.BackgroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,11 +42,15 @@ public class MainActivity extends AppCompatActivity {
                 if (hasFocus && aux.equals("Buscar o introducir página")) {
                     TextKeyListener.clear((autoText).getText());
                 } else {
-                    /*if (hasFocus && !(aux.equals("Buscar o introducir página"))) {
-
-                    }*/
-                    if (!hasFocus && !type) {
-                        autoText.setText(aux);
+                    if (hasFocus && !(aux.equals("Buscar o introducir página"))) {
+                        Spannable spanText = Spannable.Factory.getInstance().newSpannable(aux);
+                        spanText.setSpan(new BackgroundColorSpan(0xFFFFFF00), 0, aux.length(),
+                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        autoText.setText(spanText);
+                    } else {
+                        if (!hasFocus && !type) {
+                            autoText.setText(aux);
+                        }
                     }
                 }
             }
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static final String[] COUNTRIES = new String[] {
-            "Belgium", "France", "Italy", "Germany", "Spain"
+            "Belgium", "France", "Italy", "Germany", "Spain", "Payaso", "Pantalla"
     };
 
     @Override
@@ -72,11 +78,6 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
