@@ -80,6 +80,7 @@ public class BrowserDB extends SQLiteOpenHelper {
     }
 
     public String[] getHistorial() {
-
+        String[] a = new String[1];
+        return a;
     }
 }
