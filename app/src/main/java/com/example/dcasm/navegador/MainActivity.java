@@ -1,18 +1,22 @@
 package com.example.dcasm.navegador;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.text.method.TextKeyListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    WebView wv;
+    WebView webview;
+    AutoCompleteTextView autoText;
+    String aux;
+    boolean type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +25,39 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        wv = (WebView) findViewById(R.id.webView2);
+        type = false;
 
-        wv.loadUrl("https://www.google.com");
+        //Control AutoCompleteTextview
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+
+        final AutoCompleteTextView autoText = (AutoCompleteTextView) findViewById(R.id.autoText);
+        autoText.setAdapter(adapter);
+        autoText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                aux = autoText.getText().toString();
+                if (hasFocus && aux.equals("Buscar o introducir página")) {
+                    TextKeyListener.clear((autoText).getText());
+                } else {
+                    /*if (hasFocus && !(aux.equals("Buscar o introducir página"))) {
+
+                    }*/
+                    if (!hasFocus && !type) {
+                        autoText.setText(aux);
+                    }
+                }
+            }
+        });
+
+        //wv = (WebView) findViewById(R.id.webView2);
+
+        //wv.loadUrl("https://www.google.com");
     }
+
+    private static final String[] COUNTRIES = new String[] {
+            "Belgium", "France", "Italy", "Germany", "Spain"
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
