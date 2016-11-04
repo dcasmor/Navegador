@@ -4,8 +4,8 @@ import android.content.*;
 import android.database.sqlite.*;
 import android.database.*;
 
-public class BDNavegador extends SQLiteOpenHelper {
-    public BDNavegador(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+public class BrowserDB extends SQLiteOpenHelper {
+    public BrowserDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

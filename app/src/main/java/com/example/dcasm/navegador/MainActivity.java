@@ -1,5 +1,6 @@
 package com.example.dcasm.navegador;
 
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,15 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    WebView webview;
-    AutoCompleteTextView autoText;
-    String aux;
-    boolean type;
+    private WebView webview;
+    private AutoCompleteTextView autoText;
+    private String aux, url;
+    private ArrayAdapter<String> historial;
+    private BrowserDB bdb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +30,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        type = false;
-
         //Control AutoCompleteTextview
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+                android.R.layout.simple_dropdown_item_1line, HISTORIAL);
 
-        final AutoCompleteTextView autoText = (AutoCompleteTextView) findViewById(R.id.autoText);
+        autoText = (AutoCompleteTextView) findViewById(R.id.autoText);
         autoText.setAdapter(adapter);
-        autoText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        /*autoText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 aux = autoText.getText().toString();
@@ -54,16 +56,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        });
+        });*/
 
-        //wv = (WebView) findViewById(R.id.webView2);
-
-        //wv.loadUrl("https://www.google.com");
+        //Control WebView
+        /*webview = (WebView) findViewById(R.id.webV);
+        webview.loadUrl("https://www.google.com");
+        webview.setWebViewClient(new WebViewClient());*/
     }
 
-    private static final String[] COUNTRIES = new String[] {
+    private static final String[] HISTORIAL = new String[] {
             "Belgium", "France", "Italy", "Germany", "Spain", "Payaso", "Pantalla"
     };
+
+    private void buscar() {
+        int a = 1;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
