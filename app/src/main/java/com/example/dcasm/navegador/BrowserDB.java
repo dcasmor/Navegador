@@ -24,6 +24,7 @@ public class BrowserDB extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqldb, int oldVer, int newVer) {
         sqldb.execSQL("DROP TABLE IF EXISTS" + TABLA);
+        onCreate(sqldb);
     }
 
     public long updateSQL(int id, String nom, String dir, int nVis) {
@@ -35,10 +36,8 @@ public class BrowserDB extends SQLiteOpenHelper {
             values.put("nombre", nom);
             values.put("http", dir);
             values.put("visitas", nVis);
-
             res = sqldb.insert("Historial", null, values);
         }
-
         sqldb.close();
         return res;
     }
@@ -78,5 +77,9 @@ public class BrowserDB extends SQLiteOpenHelper {
         }
         sqldb.close();
         return url;
+    }
+
+    public String[] getHistorial() {
+
     }
 }

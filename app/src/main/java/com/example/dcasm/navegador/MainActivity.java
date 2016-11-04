@@ -30,46 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Control AutoCompleteTextview
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, HISTORIAL);
-
         autoText = (AutoCompleteTextView) findViewById(R.id.autoText);
-        autoText.setAdapter(adapter);
-
-        /*autoText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                aux = autoText.getText().toString();
-                if (hasFocus && aux.equals("Buscar o introducir página")) {
-                    TextKeyListener.clear((autoText).getText());
-                } else {
-                    if (hasFocus && !(aux.equals("Buscar o introducir página"))) {
-                        Spannable spanText = Spannable.Factory.getInstance().newSpannable(aux);
-                        spanText.setSpan(new BackgroundColorSpan(0xFFFFFF00), 0, aux.length(),
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        autoText.setText(spanText);
-                    } else {
-                        if (!hasFocus && !type) {
-                            autoText.setText(aux);
-                        }
-                    }
-                }
-            }
-        });*/
-
-        //Control WebView
-        /*webview = (WebView) findViewById(R.id.webV);
-        webview.loadUrl("https://www.google.com");
-        webview.setWebViewClient(new WebViewClient());*/
-    }
-
-    private static final String[] HISTORIAL = new String[] {
-            "Belgium", "France", "Italy", "Germany", "Spain", "Payaso", "Pantalla"
-    };
-
-    private void buscar() {
-        int a = 1;
+        webview = (WebView) findViewById(R.id.webV);
     }
 
     @Override

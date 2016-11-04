@@ -7,8 +7,16 @@
         android:id="@+id/bSearch"
         android:orderInCategory="1"
         android:title="@string/bSearch"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:icon="@android:drawable/ic_menu_search" />
+
+    <item
+        android:id="@+id/bHome"
+        android:orderInCategory="2"
+        android:title="@string/bHome"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
     <item
         android:id="@+id/bhist"
         android:orderInCategory="3"
