@@ -2,4 +2,6 @@
     <string name="app_name">Navegador</string>
     <string name="action_settings">Historial</string>
     <string name="actv">Buscar o introducir página</string>
+    <string name="bFav">Guardar favorito</string>
+    <string name="bSearch">Buscar/Ir</string>
 </resources>
