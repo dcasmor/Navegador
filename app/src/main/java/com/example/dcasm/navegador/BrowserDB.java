@@ -32,7 +32,7 @@ public class BrowserDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertar(Web web) {
+    /*public long insertar(Web web) {
         long reg = -1;
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
@@ -44,7 +44,7 @@ public class BrowserDB extends SQLiteOpenHelper {
         }
         db.close();
         return reg;
-    }
+    }*/
 
     public boolean borrar(Web web) {
         SQLiteDatabase db = getWritableDatabase();

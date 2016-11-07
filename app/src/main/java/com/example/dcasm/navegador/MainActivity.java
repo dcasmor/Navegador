@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
         webview.loadUrl("http://www.google.es");
         webview.setWebViewClient(new WebViewClient());
-        nuevaWeb();
+        //nuevaWeb();
     }
 
-    public void nuevaWeb(View view) {
-        web = new Web()
-    }
+    //public void nuevaWeb(View view) {
+      //  web = new Web();
+    //}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
