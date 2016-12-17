@@ -10,13 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private WebView web;
     private AutoCompleteTextView direccion;
+    private InputMethodManager input;
+    private Vector<String> urls = new Vector<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,52 +39,76 @@ public class MainActivity extends AppCompatActivity {
 
         direccion = (AutoCompleteTextView) findViewById(R.id.acDireccion);
         web = (WebView) findViewById(R.id.webV);
-        final InputMethodManager input = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        input = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        WebSettings webSettings = web.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
         //Listener de introducción de URL
         direccion.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    if (URLUtil.isValidUrl(direccion.getText().toString())) {
-                        bd.nuevaUrl(direccion.getText().toString());
-                        web.loadUrl(direccion.getText().toString());
-                        input.toggleSoftInput(0, 0);
-                        direccion.clearFocus();
-                        return true;
-                    }
-                    else
-                        Toast.makeText(MainActivity.this, "URL no válida", Toast.LENGTH_SHORT).show();
+                    cargaWeb();
+                    return true;
                 }
                 return false;
             }
         });
 
         web.requestFocus();
-        WebSettings webSettings = web.getSettings();
-        webSettings.setJavaScriptEnabled(true);
 
-
-        //Cóodigo para cambiar el contenido de la barra de dirección
+        //Código para cambiar el contenido de la barra de dirección
         web.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView webView, String url) {
                 direccion.setText(url);
+                bd.nuevaUrl(url);
             }
         });
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, urls);
+        direccion.setAdapter(adapter);
 
         //Inicialización del programa
         web.loadUrl("http://www.google.es");
         direccion.setText(web.getUrl().toString());
     }
 
-    @Override
-    public void onBackPressed() {
-        if (web.canGoBack()) {
-            web.goBack();
+    public void autoComp() {
+
+    }
+
+    public void cargaWeb() {
+        if (URLUtil.isValidUrl(direccion.getText().toString())) {
+            web.loadUrl(direccion.getText().toString());
+            input.toggleSoftInput(0, 0);
+            direccion.clearFocus();
         }
         else
-            finish();
+            Toast.makeText(MainActivity.this, "URL no válida", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle estado) {
+        super.onSaveInstanceState(estado);
+        estado.putString("url", direccion.getText().toString());
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        direccion.setText(savedInstanceState.getString("url").toString());
+        cargaWeb();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (web.canGoBack())
+            web.goBack();
+        else
+            super.onBackPressed();
     }
 
     @Override
