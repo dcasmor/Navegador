@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -14,7 +15,7 @@ public class BrowserDB extends SQLiteOpenHelper {
     private static final String NOMBRE_BD = "Dat.db";
 
     private static final String ins = "CREATE TABLE HISTORIAL (" +
-            "URL TEXT NOT NULL);";
+            "URL TEXT NOT NULL UNIQUE);";
 
     public BrowserDB(Context context) {
         super(context, NOMBRE_BD , null, VERSION_BD);
@@ -36,15 +37,29 @@ public class BrowserDB extends SQLiteOpenHelper {
         long nreg = -1;
 
         if (db != null) {
-            Cursor c = db.rawQuery("SELECT URL FROM HISTORIAL WHERE URL = " + url, null);
-            if (!c.moveToFirst()) {
+            try {
+                //Cursor c = db.rawQuery("SELECT URL FROM HISTORIAL WHERE URL = " + url + " ;", null);
+                //if (!c.moveToFirst()) {
                 ContentValues v = new ContentValues();
                 v.put("url", url);
                 nreg = db.insert("historial", null, v);
-            }
+            } catch (SQLiteConstraintException sqlce) {}
+            //}
+            //else
+              //  return;
         }
         db.close();
         Log.d("REG", "" + nreg);
+    }
+
+    public Cursor getUrls() {
+        SQLiteDatabase db = getReadableDatabase();
+        if (db != null) {
+            Cursor c = db.rawQuery("SELECT URL FROM HISTORIAL", null);
+            return c;
+        }
+        db.close();
+        return null;
     }
 
     public void borrar() {

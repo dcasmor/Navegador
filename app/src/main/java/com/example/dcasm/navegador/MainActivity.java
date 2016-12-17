@@ -1,6 +1,7 @@
 package com.example.dcasm.navegador;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -70,12 +71,22 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, urls);
         direccion.setAdapter(adapter);
 
+        autoComp();
+
         //Inicialización del programa
         web.loadUrl("http://www.google.es");
         direccion.setText(web.getUrl().toString());
     }
 
     public void autoComp() {
+        urls.clear();
+        Cursor c = bd.getUrls();
+        if (c != null) {
+            while (c.moveToNext()) {
+                urls.add(c.getString(0));
+                urls.add(c.getString(0).substring(7, c.getString(0).length()-1));
+            }
+        }
 
     }
 
@@ -83,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         if (URLUtil.isValidUrl(direccion.getText().toString())) {
             web.loadUrl(direccion.getText().toString());
             input.toggleSoftInput(0, 0);
-            direccion.clearFocus();
+            web.requestFocus();
         }
         else
             Toast.makeText(MainActivity.this, "URL no válida", Toast.LENGTH_SHORT).show();
