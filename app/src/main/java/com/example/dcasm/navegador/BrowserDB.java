@@ -11,10 +11,10 @@ public class BrowserDB extends SQLiteOpenHelper {
 
     private static final int VERSION_BD = 1;
     private static final String NOMBRE_BD = "Dat.db";
-    private static final String NOMBRE_TABLA = "historial";
 
-    private static final String ins = "CREATE TABLE historial (id INT PRIMARY KEY, nombre" +
-            " VARCHAR(100), http VARCHAR(200))";
+    private static final String ins = "CREATE TABLE HISTORIAL (" +
+            "ID INTEGER PRIMARY KEY AUTOINCREMET, " +
+            "URL TEXT NOT NULL";
 
     public BrowserDB(Context context) {
         super(context, NOMBRE_BD , null, VERSION_BD);
@@ -27,32 +27,8 @@ public class BrowserDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS" + NOMBRE_TABLA);
+        db.execSQL("DROP TABLE IF EXISTS HISTORIAL");
         onCreate(db);
     }
 
-    /*public long insertar(Web web) {
-        long reg = -1;
-        SQLiteDatabase db = getWritableDatabase();
-        if (db != null) {
-            ContentValues valores = new ContentValues();
-            valores.put("id", web.getId());
-            valores.put("nombre", web.getNombre());
-            valores.put("direccion", web.getDireccion());
-            reg = db.insert("historial", null, valores);
-        }
-        db.close();
-        return reg;
-    }*/
-
-    public boolean borrar() {
-        SQLiteDatabase db = getWritableDatabase();
-        if (db != null) {
-            db.execSQL("DROP TABLE historial");
-            try {
-                db.execSQL("SELECT * FROM historial");
-            } catch (SQLException sqlx) {return true;}
-        }
-        return false;
-    }
 }

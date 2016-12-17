@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (web.canGoBack() == true) {
+        if (web.canGoBack()) {
             web.goBack();
         }
         else
@@ -72,9 +72,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.menu.menu_main) {
+        if (id == R.id.bHome) {
             web.loadUrl("http://www.google.es");
+            direccion.setText(web.getUrl().toString());
         }
+        else if (id == R.id.forward && web.canGoForward())
+            web.goForward();
 
         return super.onOptionsItemSelected(item);
     }
