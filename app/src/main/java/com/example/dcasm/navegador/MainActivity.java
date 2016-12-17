@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -115,29 +116,38 @@ public class MainActivity extends AppCompatActivity {
         if (c != null) {
             while (c.moveToNext()) {
                 urls.add(c.getString(0));
-                if (c.getString(0).substring(10) == "https://www.")
-                    urls.add(c.getString(0).substring(11, c.getString(0).length()-1));
-                if (c.getString(0).substring(9) == "http://www.")
-                urls.add(c.getString(0).substring(10, c.getString(0).length()-1));
+                String aux = c.getString(0);
+                if (aux.substring(0, 12).equals("https://www.")) {
+                    urls.add(aux.substring(12, aux.length() - 1));
+                    Log.d("11", aux.substring(12, c.getString(0).length() - 1));
+                }
+                if (aux.substring(0, 11).equals("http://www.")) {
+                    urls.add(aux.substring(11, c.getString(0).length() - 1));
+                    Log.d("10", aux.substring(11, c.getString(0).length() - 1));
+                }
             }
         }
 
     }
 
     public void cargaWeb() {
-        if (URLUtil.isValidUrl(direccion.getText().toString())) {
-            web.loadUrl(direccion.getText().toString());
+        String aux = direccion.getText().toString();
+        if (URLUtil.isValidUrl(aux)) {
+            //bd.nuevaUrl(aux);
+            web.loadUrl(aux);
             input.toggleSoftInput(0, 0);
             web.requestFocus();
+            Log.d("CARGAWEB", "URL VÁLIDA");
             autoComp();
         }
         else {
             String url = "https://www.google.com/search?q=";
-            String texto = direccion.getText().toString().trim();
+            String texto = aux.trim();
             String busca = url + texto;
             web.loadUrl(busca);
             input.toggleSoftInput(0, 0);
             web.requestFocus();
+            Log.d("CARGAWEB", "URL NO VÁLIDA");
             autoComp();
         }
     }
