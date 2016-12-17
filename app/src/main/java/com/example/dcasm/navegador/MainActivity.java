@@ -2,8 +2,10 @@ package com.example.dcasm.navegador;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -11,11 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.Vector;
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private AutoCompleteTextView direccion;
     private InputMethodManager input;
     private Vector<String> urls = new Vector<String>();
+    private ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
         direccion = (AutoCompleteTextView) findViewById(R.id.acDireccion);
         web = (WebView) findViewById(R.id.webV);
+        pb = (ProgressBar) findViewById(R.id.pbar);
         input = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        pb.setMax(100);
 
         WebSettings webSettings = web.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -64,13 +72,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        web.requestFocus();
-
-        //Código para cambiar el contenido de la barra de dirección
         web.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView webView, String url) {
+            public void onPageStarted(WebView webView, String url, Bitmap favicon) {
                 direccion.setText(url);
                 bd.nuevaUrl(url);
+            }
+
+        });
+
+        web.setWebChromeClient(new WebChromeClient() {
+            private int progress;
+
+            public void setProgress(int progress) {
+                this.progress = progress;
+            }
+
+            @Override
+            public void onProgressChanged(WebView view, int progress) {
+                pb.setProgress(0);
+                pb.setVisibility(View.VISIBLE);
+                this.setProgress(progress * 1000);
+                pb.incrementProgressBy(progress);
+                if (progress == 100)
+                    pb.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -78,11 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, urls);
         direccion.setAdapter(adapter);
 
-        autoComp();
-
         //Inicialización del programa
         web.loadUrl("http://www.google.es");
         direccion.setText(web.getUrl().toString());
+        web.requestFocus();
+        autoComp();
     }
 
     public void autoComp() {
@@ -90,10 +114,10 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = bd.getUrls();
         if (c != null) {
             while (c.moveToNext()) {
-                //urls.add(c.getString(0));
-                urls.add(c.getString(0).substring(8, c.getString(0).length()-1));
-                urls.add(c.getString(0).substring(7, c.getString(0).length()-1));
-                urls.add(c.getString(0).substring(11, c.getString(0).length()-1));
+                urls.add(c.getString(0));
+                if (c.getString(0).substring(10) == "https://www.")
+                    urls.add(c.getString(0).substring(11, c.getString(0).length()-1));
+                if (c.getString(0).substring(9) == "http://www.")
                 urls.add(c.getString(0).substring(10, c.getString(0).length()-1));
             }
         }
