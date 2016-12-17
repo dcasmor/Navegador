@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = bd.getUrls();
         if (c != null) {
             while (c.moveToNext()) {
-                urls.add(c.getString(0));
+                //urls.add(c.getString(0));
                 urls.add(c.getString(0).substring(7, c.getString(0).length()-1));
             }
         }
@@ -95,9 +95,17 @@ public class MainActivity extends AppCompatActivity {
             web.loadUrl(direccion.getText().toString());
             input.toggleSoftInput(0, 0);
             web.requestFocus();
+            autoComp();
         }
-        else
-            Toast.makeText(MainActivity.this, "URL no válida", Toast.LENGTH_SHORT).show();
+        else {
+            String url = "https://www.google.com/search?q=";
+            String texto = direccion.getText().toString().trim();
+            String busca = url + texto;
+            web.loadUrl(busca);
+            input.toggleSoftInput(0, 0);
+            web.requestFocus();
+            autoComp();
+        }
     }
 
     @Override

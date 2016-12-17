@@ -15,7 +15,7 @@ public class BrowserDB extends SQLiteOpenHelper {
     private static final String NOMBRE_BD = "Dat.db";
 
     private static final String ins = "CREATE TABLE HISTORIAL (" +
-            "URL TEXT NOT NULL UNIQUE);";
+            "URL TEXT NOT NULL PRIMARY KEY);";
 
     public BrowserDB(Context context) {
         super(context, NOMBRE_BD , null, VERSION_BD);
@@ -38,15 +38,10 @@ public class BrowserDB extends SQLiteOpenHelper {
 
         if (db != null) {
             try {
-                //Cursor c = db.rawQuery("SELECT URL FROM HISTORIAL WHERE URL = " + url + " ;", null);
-                //if (!c.moveToFirst()) {
                 ContentValues v = new ContentValues();
                 v.put("url", url);
                 nreg = db.insert("historial", null, v);
-            } catch (SQLiteConstraintException sqlce) {}
-            //}
-            //else
-              //  return;
+            } catch (Exception e) {}
         }
         db.close();
         Log.d("REG", "" + nreg);
@@ -55,8 +50,10 @@ public class BrowserDB extends SQLiteOpenHelper {
     public Cursor getUrls() {
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
-            Cursor c = db.rawQuery("SELECT URL FROM HISTORIAL", null);
-            return c;
+            try {
+                Cursor c = db.rawQuery("SELECT URL FROM HISTORIAL", null);
+                return c;
+            } catch (Exception e) {}
         }
         db.close();
         return null;
@@ -65,7 +62,7 @@ public class BrowserDB extends SQLiteOpenHelper {
     public void borrar() {
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
-            db.execSQL("DROP TABLE HISTORIAL;");
+            db.execSQL("DELETE FROM HISTORIAL;");
         }
         db.close();
     }

@@ -24,7 +24,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/acDireccion"
                 android:ellipsize="start"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:selectAllOnFocus="true" />
 
         </android.support.v7.widget.Toolbar>
 
