@@ -27,7 +27,8 @@
                 android:singleLine="true"
                 android:selectAllOnFocus="true"
                 tools:ignore="Deprecated"
-                android:completionThreshold="1"/>
+                android:completionThreshold="1"
+                />
 
         </android.support.v7.widget.Toolbar>
 

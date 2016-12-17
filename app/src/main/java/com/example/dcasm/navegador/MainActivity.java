@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,8 +25,7 @@ import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
-    BrowserDB bd;
-
+    Database bd;
     private WebView web;
     private AutoCompleteTextView direccion;
     private InputMethodManager input;
@@ -41,15 +39,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        bd = new BrowserDB(this);
-
+        //Inicialización
+        bd = new Database(this);
         direccion = (AutoCompleteTextView) findViewById(R.id.acDireccion);
         web = (WebView) findViewById(R.id.webV);
         pb = (ProgressBar) findViewById(R.id.pbar);
         input = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        direccion.setDropDownHeight(700);
+
+        //Seteo de la progressbar
         pb.setMax(100);
 
+        ////////
         WebSettings webSettings = web.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageStarted(WebView webView, String url, Bitmap favicon) {
                 direccion.setText(url);
                 bd.nuevaUrl(url);
+                autoComp();
             }
 
         });
@@ -128,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = bd.getUrls();
         if (c != null) {
             while (c.moveToNext()) {
-                urls.add(c.getString(0));
                 String aux = c.getString(0);
                 if (aux.substring(0, 12).equals("https://www."))
                     urls.add(aux.substring(12, aux.length() - 1));

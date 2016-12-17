@@ -3,13 +3,11 @@ package com.example.dcasm.navegador;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-public class BrowserDB extends SQLiteOpenHelper {
+public class Database extends SQLiteOpenHelper {
 
     private static final int VERSION_BD = 1;
     private static final String NOMBRE_BD = "Dat.db";
@@ -17,7 +15,7 @@ public class BrowserDB extends SQLiteOpenHelper {
     private static final String ins = "CREATE TABLE HISTORIAL (" +
             "URL TEXT NOT NULL PRIMARY KEY);";
 
-    public BrowserDB(Context context) {
+    public Database(Context context) {
         super(context, NOMBRE_BD , null, VERSION_BD);
     }
 
@@ -32,6 +30,7 @@ public class BrowserDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //Insercón de URL
     public void nuevaUrl(String url) {
         SQLiteDatabase db = getWritableDatabase();
         long nreg = -1;
@@ -45,6 +44,7 @@ public class BrowserDB extends SQLiteOpenHelper {
         Log.d("REG", "" + nreg);
     }
 
+    //Obtención de URLs para el AutoCompleteTextView
     public Cursor getUrls() {
         SQLiteDatabase db = getReadableDatabase();
         if (db != null) {
@@ -57,6 +57,7 @@ public class BrowserDB extends SQLiteOpenHelper {
         return null;
     }
 
+    //Borrado del historial
     public void borrar() {
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
