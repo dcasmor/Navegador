@@ -57,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        direccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoComp();
+            }
+        });
+
         web.requestFocus();
 
         //Código para cambiar el contenido de la barra de dirección
@@ -84,7 +91,10 @@ public class MainActivity extends AppCompatActivity {
         if (c != null) {
             while (c.moveToNext()) {
                 //urls.add(c.getString(0));
+                urls.add(c.getString(0).substring(8, c.getString(0).length()-1));
                 urls.add(c.getString(0).substring(7, c.getString(0).length()-1));
+                urls.add(c.getString(0).substring(11, c.getString(0).length()-1));
+                urls.add(c.getString(0).substring(10, c.getString(0).length()-1));
             }
         }
 

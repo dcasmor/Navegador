@@ -37,11 +37,9 @@ public class BrowserDB extends SQLiteOpenHelper {
         long nreg = -1;
 
         if (db != null) {
-            try {
-                ContentValues v = new ContentValues();
-                v.put("url", url);
-                nreg = db.insert("historial", null, v);
-            } catch (Exception e) {}
+            ContentValues v = new ContentValues();
+            v.put("url", url);
+            nreg = db.insert("historial", null, v);
         }
         db.close();
         Log.d("REG", "" + nreg);
