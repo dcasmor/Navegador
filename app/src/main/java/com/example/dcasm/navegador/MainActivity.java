@@ -1,5 +1,6 @@
 package com.example.dcasm.navegador;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,11 +8,15 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,25 +36,41 @@ public class MainActivity extends AppCompatActivity {
 
         direccion = (AutoCompleteTextView) findViewById(R.id.acDireccion);
         web = (WebView) findViewById(R.id.webV);
+        final InputMethodManager input = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        //Listener de introducción de URL
         direccion.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    web.loadUrl(direccion.getText().toString());
-                    return true;
+                    if (URLUtil.isValidUrl(direccion.getText().toString())) {
+                        bd.nuevaUrl(direccion.getText().toString());
+                        web.loadUrl(direccion.getText().toString());
+                        input.toggleSoftInput(0, 0);
+                        direccion.clearFocus();
+                        return true;
+                    }
+                    else
+                        Toast.makeText(MainActivity.this, "URL no válida", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
         });
 
         web.requestFocus();
+        WebSettings webSettings = web.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
+
+        //Cóodigo para cambiar el contenido de la barra de dirección
         web.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView webView, String url) {
                 direccion.setText(url);
             }
         });
+
+
+        //Inicialización del programa
         web.loadUrl("http://www.google.es");
         direccion.setText(web.getUrl().toString());
     }
@@ -78,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (id == R.id.forward && web.canGoForward())
             web.goForward();
+        else if (id == R.id.delete)
+            bd.borrar();
 
         return super.onOptionsItemSelected(item);
     }
