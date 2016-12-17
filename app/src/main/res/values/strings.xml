@@ -7,4 +7,5 @@
     <string name="bHome">Inicio</string>
     <string name="bGuardar">Marcar favorito</string>
     <string name="vacio"> </string>
+    <string name="borra">Borrar historial</string>
 </resources>

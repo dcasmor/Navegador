@@ -8,14 +8,19 @@
         android:orderInCategory="1"
         android:title="@string/bHome"
         app:showAsAction="always"
-        tools:ignore="AlwaysShowAction"
-        android:icon="@drawable/ic_home_black_24dp" />
+        android:icon="@drawable/action_home" />
 
     <item
         android:id="@+id/forward"
         android:orderInCategory="2"
         android:title="@string/vacio"
-        app:showAsAction="never"
-        android:icon="@drawable/ic_arrow_forward_black_24dp" />
+        app:showAsAction="always"
+        android:icon="@drawable/action_forward" />
+
+    <item
+        android:id="@+id/delete"
+        android:orderInCategory="3"
+        android:title="@string/borra"
+        app:showAsAction="never" />
 
 </menu>
