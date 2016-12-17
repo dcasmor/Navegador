@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AutoCompleteTextView;
@@ -18,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private WebView web;
     private AutoCompleteTextView direccion;
-    private ProgressBar pBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         direccion = (AutoCompleteTextView) findViewById(R.id.acDireccion);
         web = (WebView) findViewById(R.id.webV);
-        pBar = (ProgressBar) findViewById(R.id.progressBar);
 
         direccion.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        pBar.setMax(100);
         web.requestFocus();
 
         web.setWebViewClient(new WebViewClient() {
