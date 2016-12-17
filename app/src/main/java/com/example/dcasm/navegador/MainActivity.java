@@ -17,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> historial;
 
     private WebView webview;
-    private AutoCompleteTextView autoText;
+    private AutoCompleteTextView direccion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,11 +27,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         bd = new BrowserDB(this);
 
-        autoText = (AutoCompleteTextView) findViewById(R.id.autoText);
+        direccion = (AutoCompleteTextView) findViewById(R.id.acDireccion);
         webview = (WebView) findViewById(R.id.webV);
+        webview.requestFocus();
 
-        webview.loadUrl("http://www.google.es");
+        webview.loadUrl("http://www.goole.es");
         webview.setWebViewClient(new WebViewClient());
+        direccion.setText(webview.getUrl().toString());
         //nuevaWeb();
     }
 

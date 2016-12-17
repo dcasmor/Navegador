@@ -20,17 +20,12 @@
             android:weightSum="1">
 
             <AutoCompleteTextView
-                android:id="@+id/autoText"
-                android:layout_height="40dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_width="match_parent"
-                android:selectAllOnFocus="true"
-                android:completionThreshold="1"
-                android:layout_weight="1.19" />
+                android:layout_height="match_parent"
+                android:id="@+id/acDireccion" />
 
         </android.support.v7.widget.Toolbar>
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main"
