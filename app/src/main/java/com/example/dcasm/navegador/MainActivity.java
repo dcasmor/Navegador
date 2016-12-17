@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,7 +20,6 @@ import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.Vector;
 
@@ -99,15 +97,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, urls);
-        direccion.setAdapter(adapter);
+        setupAdapter();
+        autoComp();
 
         //Inicialización del programa
         web.loadUrl("http://www.google.es");
         direccion.setText(web.getUrl().toString());
         web.requestFocus();
-        autoComp();
+    }
+
+    public void setupAdapter() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, urls);
+        direccion.setAdapter(adapter);
     }
 
     public void autoComp() {
@@ -117,28 +119,21 @@ public class MainActivity extends AppCompatActivity {
             while (c.moveToNext()) {
                 urls.add(c.getString(0));
                 String aux = c.getString(0);
-                if (aux.substring(0, 12).equals("https://www.")) {
+                if (aux.substring(0, 12).equals("https://www."))
                     urls.add(aux.substring(12, aux.length() - 1));
-                    Log.d("11", aux.substring(12, c.getString(0).length() - 1));
-                }
-                if (aux.substring(0, 11).equals("http://www.")) {
+                if (aux.substring(0, 11).equals("http://www."))
                     urls.add(aux.substring(11, c.getString(0).length() - 1));
-                    Log.d("10", aux.substring(11, c.getString(0).length() - 1));
-                }
             }
         }
-
+        setupAdapter();
     }
 
     public void cargaWeb() {
         String aux = direccion.getText().toString();
         if (URLUtil.isValidUrl(aux)) {
-            //bd.nuevaUrl(aux);
             web.loadUrl(aux);
             input.toggleSoftInput(0, 0);
             web.requestFocus();
-            Log.d("CARGAWEB", "URL VÁLIDA");
-            autoComp();
         }
         else {
             String url = "https://www.google.com/search?q=";
@@ -147,10 +142,11 @@ public class MainActivity extends AppCompatActivity {
             web.loadUrl(busca);
             input.toggleSoftInput(0, 0);
             web.requestFocus();
-            Log.d("CARGAWEB", "URL NO VÁLIDA");
-            autoComp();
         }
+        setupAdapter();
+        autoComp();
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle estado) {
@@ -189,8 +185,11 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (id == R.id.forward && web.canGoForward())
             web.goForward();
-        else if (id == R.id.delete)
+        else if (id == R.id.delete) {
             bd.borrar();
+            setupAdapter();
+            autoComp();
+        }
 
         return super.onOptionsItemSelected(item);
     }
