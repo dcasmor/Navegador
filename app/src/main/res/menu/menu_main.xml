@@ -5,10 +5,17 @@
 
     <item
         android:id="@+id/bHome"
-        android:orderInCategory="3"
+        android:orderInCategory="1"
         android:title="@string/bHome"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction"
-        android:icon="@drawable/home" />
+        android:icon="@drawable/ic_home_black_24dp" />
+
+    <item
+        android:id="@+id/forward"
+        android:orderInCategory="2"
+        android:title="@string/vacio"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_arrow_forward_black_24dp" />
 
 </menu>

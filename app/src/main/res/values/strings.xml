@@ -6,4 +6,5 @@
     <string name="bSearch">Buscar/Ir</string>
     <string name="bHome">Inicio</string>
     <string name="bGuardar">Marcar favorito</string>
+    <string name="vacio"> </string>
 </resources>
