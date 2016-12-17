@@ -11,22 +11,4 @@
         tools:ignore="AlwaysShowAction"
         android:icon="@drawable/home" />
 
-    <item
-        android:id="@+id/bhist"
-        android:orderInCategory="4"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/bFav"
-        android:orderInCategory="5"
-        android:title="@string/bFav"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/bGuardar"
-        android:orderInCategory="4"
-        android:title="@string/bGuardar"
-        app:showAsAction="always"
-        android:icon="@android:drawable/btn_star_big_off" />
 </menu>

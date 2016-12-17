@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class BrowserDB extends SQLiteOpenHelper {
 
-    private static Web web;
     private static final int VERSION_BD = 1;
     private static final String NOMBRE_BD = "Dat.db";
     private static final String NOMBRE_TABLA = "historial";
@@ -46,7 +45,7 @@ public class BrowserDB extends SQLiteOpenHelper {
         return reg;
     }*/
 
-    public boolean borrar(Web web) {
+    public boolean borrar() {
         SQLiteDatabase db = getWritableDatabase();
         if (db != null) {
             db.execSQL("DROP TABLE historial");

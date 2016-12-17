@@ -14,7 +14,6 @@ import android.widget.AutoCompleteTextView;
 public class MainActivity extends AppCompatActivity {
 
     BrowserDB bd;
-    Web web;
     ArrayAdapter<String> historial;
 
     private WebView webview;
