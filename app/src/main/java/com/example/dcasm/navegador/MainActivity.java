@@ -17,6 +17,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
@@ -71,6 +72,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        direccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String aux = parent.getItemAtPosition(position).toString();
+                direccion.setText("http://www." + aux);
+                cargaWeb();
+                web.requestFocus();
+            }
+        });
+
         web.setWebViewClient(new WebViewClient() {
             public void onPageStarted(WebView webView, String url, Bitmap favicon) {
                 direccion.setText(url);
@@ -122,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 if (aux.substring(0, 12).equals("https://www."))
                     urls.add(aux.substring(12, aux.length() - 1));
                 if (aux.substring(0, 11).equals("http://www."))
-                    urls.add(aux.substring(11, c.getString(0).length() - 1));
+                    urls.add(aux.substring(11, aux.length() - 1));
             }
         }
         setupAdapter();
