@@ -14,7 +14,6 @@ import android.widget.AutoCompleteTextView;
 public class MainActivity extends AppCompatActivity {
 
     BrowserDB bd;
-    ArrayAdapter<String> historial;
 
     private WebView webview;
     private AutoCompleteTextView direccion;
@@ -34,12 +33,7 @@ public class MainActivity extends AppCompatActivity {
         webview.loadUrl("http://www.goole.es");
         webview.setWebViewClient(new WebViewClient());
         direccion.setText(webview.getUrl().toString());
-        //nuevaWeb();
     }
-
-    //public void nuevaWeb(View view) {
-      //  web = new Web();
-    //}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
